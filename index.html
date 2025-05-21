@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="DRAGoN: Dynamic RAG Benchmark on News">
+    <meta property="og:title" content="DRAGoN: Dynamic RAG Benchmark on News" />
+    <meta property="og:description" content="We present DRAGoN (Dynamic RAG Benchmark on News), the first dynamic benchmark for evaluating RAG systems in Russian, built upon a regularly updated corpus of Russian news and public documents." />
+    <meta property="og:url" content="https://tiger-ai-lab.github.io/General-Reasoner/" />
+    <meta property="og:image" content="static/images/dragon_pipeline_d2_2.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <title>DRAGoN: Dynamic RAG Benchmark on News</title>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">
+                            DRAGoN: Dynamic RAG Benchmark on News
+                        </h1>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">Sergei Averkiev<sup>1</sup>, </span>
+                            <span class="author-block">Fedor Chernogorsky<sup>1</sup></span>
+                        </div>
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <span class="link-block">
+                                    <a href="https://github.com/TIGER-AI-Lab/General-Reasoner" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon"><i class="fab fa-github"></i></span>
+                                        <span>Code (Example)</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon"><i class="ai ai-arxiv"></i></span>
+                                        <span>Paper (Example)</span>
+                                    </a>
+                                </span>
+                                <!-- Add other relevant links if available -->
+                            </div>
+                        </div>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <sup>1</sup>SberDevices
+                            </span>
+                            <br>
+                            <span class="author-block">
+                                <small>
+                                    averoo@gmail.com, fedor.chernogorsky@sberdevices.ru
+                                </small>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section hero is-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h1 class="title is-3">Abstract</h1>
+                    <div class="content has-text-justified">
+                        <p>
+                            Retrieval-Augmented Generation (RAG) is a widely adopted approach for improving the factuality of large language models (LLMs) by incorporating external knowledge at inference time. While multiple RAG benchmarks exist for English, evaluation resources for other languages, including Russian, remain scarce and static, failing to capture the dynamic nature of real-world deployments.
+                        </p>
+                        <p>
+                            In this work, we present <strong>DRAGoN</strong> (Dynamic RAG Benchmark on News), the first dynamic benchmark for evaluating RAG systems in Russian. DRAGoN is built upon a regularly updated corpus of Russian news and public documents, and supports comprehensive evaluation of both retriever and generator components. We release all code and data to foster further research on retrieval-augmented generation and launch a public leaderboard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-four-fifths">
+                        <div class="item">
+                            <img src="static/images/dragon_pipeline_d2_2.png" alt="DRAGoN Pipeline" />
+                            <p class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">
+                                Figure 1: Architecture of the DRAGoN benchmark system.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
+                    <h1 class="title is-3">Introduction</h1>
+                    <div class="content has-text-justified">
+                        <p>
+                            Retrieval-Augmented Generation (RAG) has become a powerful instrument for enhancing the domain adaptation and factuality of large language models (LLMs) by incorporating external knowledge retrieved at inference time. This approach enables more up-to-date and grounded responses without the need for costly re-training. As RAG-based systems gain traction in applications such as open-domain question answering, customer support, scientific assistance, and enterprise search, rigorous and standardized evaluation becomes crucial for assessing their reliability, utility, and safety.
+                        </p>
+                        <p>
+                            While several RAG benchmarks have been proposed for the English language, the situation for other languages, including Russian, is significantly less developed.
+                        </p>
+                        <p>
+                            In this work, we focus on the evaluation of RAG systems for the Russian language. We introduce <strong>DRAGoN: Dynamic RAG Benchmark on News</strong> a novel benchmark that reflects realistic usage patterns by leveraging a regularly updated knowledge base derived from current news sources. To foster transparency and community engagement, we publicly release the code, a modular evaluation suite, and a dynamic leaderboard to track progress on RAG-based systems in Russian.
+                        </p>
+                        <p><strong>Our contributions are as follows:</strong></p>
+                        <ul>
+                            <li>We propose <strong>DRAGoN</strong>, the first RAG benchmark with a regularly updated knowledge base for the Russian language, designed to evaluate RAG systems in a dynamic setup.</li>
+                            <li>We release an open-source evaluation pipeline, enabling reproducible experimentation and easy integration of new models and retrieval components.</li>
+                            <li>We launch a public leaderboard to support reproducible, and community-driven research.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
+                    <h1 class="title is-3 has-text-centered">Related Work</h1>
+                    <div class="content has-text-justified">
+                        <p>
+                            Proper assessment of RAG systems requires holistic benchmarks that evaluate both the retrieval and generation components. For the English language, a growing body of research has focused on designing such benchmarks across a range of reasoning and grounding challenges.
+                        </p>
+                        <p>
+                            KILT~\cite{petroni2021kilt} provides a unified benchmark over a fixed Wikipedia snapshot, with an emphasis on source attribution and retrieval grounding. BEIR~\cite{thakur2021beir} represents a robust benchmark aimed at evaluation of ten diverse retrieval methods. Recent benchmarks~\cite{tang2024multihoprag}, \cite{krishna2024frames} have also focused on more complex multi-hop and reasoning-centric tasks. Conversational settings with multi-turn dialogue scenarios are investigated in mtRAG~\cite{katsis2025mtrag} and RAD-Bench~\cite{kuo2025radbench}.
+                        </p>
+                        <p>
+                            The factual consistency of generated responses in RAG has emerged as a critical challenge. RAGTruth~\cite{chadha2024ragtruth} presents a large-scale corpus for analyzing word-level hallucinations in various domains and tasks. FaithDial~\cite{dziri2022faithdial} adapts Wizard-of-Wikipedia into a hallucination-free setting. CRAG~\cite{yang2024crag} introduces a comprehensive benchmark based on five main RAG features. Q<sup>2</sup>~\cite{honovich2021q2} introduces a QA-style consistency probing framework. RAGAS~\cite{es2024ragas} proposes a reference-free evaluation suite capturing context relevance, faithfulness, and answer completeness, along with an open-source API for practical benchmarking.
+                        </p>
+                        <p>
+                            Real-world deployment of RAG systems often require evaluation on continuously evolving information sources. RealTime QA~\cite{kasai2023realtimeqa} introduces a dynamic benchmark of time-sensitive questions.
+                        </p>
+                        <p>
+                           Despite these advances, most RAG benchmarks remain focused on English. Evaluation for other languages remains limited. Face4RAG~\cite{xu2024face4rag} proposes a factuality benchmark in Chinese, which focuses on the coverage of typical hallucination types. NoMIRACL~\cite{thakur2024nomiracl} provides multilingual QA tasks in 18 languages and analyzes retrieval failures and hallucination rates. BORDIRLINES~\cite{chakrabarty2024bordirlines} explores cross-lingual RAG in politically sensitive settings. For Russian, RusBEIR~\cite{kovalev2025building} offers retrieval-only evaluation but a full end-to-end RAG benchmark has yet to be developed.
+                        </p>
+                        <p>
+                            To address this need of a comprehesive real-world RAG benchmark in Russian we present <strong>DRAGoN</strong> -- a dynamic, regularly updated benchmark for Russian-language RAG systems based on real-world, shifting corpora.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
+                    <h1 class="title is-3 has-text-centered">System Demo</h1>
+                    <div class="content has-text-justified">
+                        <p>
+                            The benchmark is designed to evaluate retrieval-augmented generation (RAG) systems in a realistic way, dynamically evolving news domain. It's architecture prioritizes modularity, automation, and reproducibility while addressing the core challenges in the RAG evaluation landscape.
+                        </p>
+                        <h2 class="title is-4">Architecture of the Dynamic Benchmark</h2>
+                        <p>The whole pipeline of the benchmark architecture can be explored in Figure 1 (re-referencing the main pipeline image).</p>
+                        
+                        <h3 class="title is-5">Data Acquisition and Processing</h3>
+                        <p>
+                            We have maintained a dedicated set of parsers which continuously crawl a curated selection of news sources including <code>rambler.ru</code>, <code>championat.com</code>, <code>afisha.ru</code>, etc. on a daily basis. Newly parsed content being synchronized into cloud-based S3-like object storage. To avoid redundancy and ensure incremental updates, a scheduled automated job identifies differences with the previous dataset revision and extracts updated segments for downstream processing.
+                        </p>
+                        <p>
+                            This design ensures the benchmark reflects evolving real-world distributions and mitigates the risks of overfitting to static datasets. The pipeline further ensures that newly surfaced topics and entities from the news stream are constantly incorporated into the benchmark.
+                        </p>
+
+                        <h3 class="title is-5">QA Dataset formation</h3>
+                        <p>
+                            Process of creation the questions and answers based on the updated increment of news data is described in detail in the Methodology section. This question and answers pairs forming the core of the benchmark. After this part is done we are producing 4 Hugging Face datasets:
+                        </p>
+                        <ul>
+                            <li><strong>Public Texts</strong>: Contains cleaned source documents. Each item is assigned a <code>public_id</code> to enable matching without exposing the true internal IDs.</li>
+                            <li><strong>Public Questions</strong>: Contains only questions, indexed via <code>public_id</code> to obfuscate alignment and encourage retrieval.</li>
+                            <li><strong>Private Texts</strong>: Used for evaluation only, and includes both the true <code>id</code> and corresponding <code>public_id</code>.</li>
+                            <li><strong>Private QA only</strong>: Provides canonical ground-truth for generative evaluation.</li>
+                        </ul>
+                        <p>
+                            All datasets are versioned and uploaded to Hugging Face with incrementally updated revision numbers. This versioning mechanism allows reproducibility and provides users with stable snapshots for further experimentation.
+                        </p>
+
+                        <h2 class="title is-4">User experience</h2>
+                        <h3 class="title is-5">Client Library</h3>
+                        <p>
+                            To facilitate seamless evaluation for users, we provide a PyPi-hosted Python library <code>rag_bench</code>, which offers an interface to:
+                        </p>
+                        <ul>
+                            <li>Fetch the latest version of the public datasets by dynamically resolving the latest Hugging Face revision;</li>
+                            <li>Observe the RAG system baseline which can be adopted for the target one;</li>
+                            <li>Evaluate RAG system and package results for submission;</li>
+                            <li>Submit results via API to our evaluation portal.</li>
+                        </ul>
+                        <p>User workflow includes loading public data, applying a custom RAG pipeline, and collecting results in the following form:</p>
+                        <pre><code>{\n    "0": {\n        "found_ids": [17, 69, 69, 22, ...],\n        "model_answer": "Ответ: Хэмм."\n    },\n    ...\n}</code></pre>
+                        <p>
+                            These results encode both the retrieved <code>public_id</code>s and the generated answers, decoupling the user's model output from any private evaluation artifacts. This separation allows secure evaluation without exposing ground-truth data.
+                        </p>
+
+                        <h3 class="title is-5">Validation Portal</h3>
+                        <p>
+                            Submitted results then are sent to the <strong>Validation Portal</strong> --- a Flask-based backend with Single Page Application written in Vue as a frontend that performs secure evaluation using the private datasets. The portal:
+                        </p>
+                        <ul>
+                            <li>Maps submitted <code>public_id</code>s to internal <code>id</code>s;</li>
+                            <li>Computes retrieval metrics such as Mean Reciprocal Rank (MRR) and Hit@k;</li>
+                            <li>Computes generative metrics;</li>
+                            <li>Stores evaluation logs and version metadata;</li>
+                            <li>Requires admin approval before publishing to the leaderboard unless working with automatic submission.</li>
+                        </ul>
+                        <p>Importantly, users submit only their results --- all ground-truth data remains internal.</p>
+                        
+                        <h3 class="title is-5">Leaderboard and Auto-Evaluation</h3>
+                        <p>
+                            A Hugging Face Gradio Space serves as the public <strong>Leaderboard</strong>. Results are committed in a version-controlled <code>results.json</code> file, automatically updated by the validation portal upon approval.
+                        </p>
+                        <p>
+                            To reduce latency and improve benchmarking coverage, we support automatic evaluation for selected pre-approved models (e.g., LLaMA variants). These are computed via the same <code>rag_bench</code> client, but using <code>auto_submit</code> mode, authenticated with a privileged API token. This mechanism is intentionally restricted to prevent misuse and preserve benchmark integrity.
+                        </p>
+                        <div class="has-text-centered">
+                            <img src="static/images/leaderboard_1.png" alt="Leaderboard Interface" />
+                            <p style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 2: Leaderboard interface.</p>
+                        </div>
+                        
+                        <h3 class="title is-5">Versioning Strategy</h3>
+                        <p>
+                            Given the dynamic nature of the benchmark, versioning plays a critical role in ensuring meaningful comparisons. Each evaluation result is tied to a specific dataset revision. On the leaderboard, users can:
+                        </p>
+                        <ul>
+                            <li>View results from a single dataset version;</li>
+                            <li>Toggle an "Actual Versions" mode to aggregate results across recent revisions;</li>
+                            <li>Compare the most recent result for each model to others' latest submissions.</li>
+                        </ul>
+                        <p>This hybrid strategy balances fairness (by avoiding cross-version leakage) and practicality (by reflecting each model's best-known performance).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
+                    <h1 class="title is-3 has-text-centered">Methodology</h1>
+                    <div class="content has-text-justified">
+                        <p>The Data Generation pipeline (Figure 3) consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.</p>
+                        <div class="has-text-centered">
+                            <img src="static/images/qg_pipeline.png" alt="Data Generation Pipeline" />
+                            <p style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 3: Architecture of the Data Generation pipeline.</p>
+                        </div>
+                        <h2 class="title is-4">Knowledge Graph Extraction</h2>
+                        <p>
+                            To enable greater control over question generation, we developed a Knowledge Graph Extraction module. The extraction pipeline is inspired by the method proposed by~\\citet{chepurova2024prompt}. Specifically, we prompt an LLM to extract triplets (subject-relation-object), search for similar entities within Wikidata index. Then the language model refines extracted relations, choosing the most plausible candidates from Wikidata and previously processed entities. To maintain the novelty of the resulting knowledge graph, we discard any relations found in Wikidata. We operate under the assumption that facts not included in Wikidata are novel and thus unlikely to have been seen by the language model.
+                        </p>
+                        <h2 class="title is-4">Question Generation</h2>
+                        <p>
+                            Question Generation stage starts with subgraph extraction. All possible subgraphs of particular shape are sampled. There are 4 distinct types of questions corresponding to the subgraph structures:
+                        </p>
+                        <ul>
+                            <li><strong>Simple</strong>: a single triplet. The relation and one of the entities from the triplet is used to construct a question. Remaining entity becomes answer.</li>
+                            <li><strong>Set</strong>: number of triplets sharing relation and either object or subject. The question is generated using shared entity and relation. The answer consists of all other entities in the subgraph.</li>
+                            <li><strong>Conditional</strong>: pair of triplets, intersecting at single entity. The language model combines both facts to describe repeated entity in question. Repeated entity becomes an answer.</li>
+                            <li><strong>Multi-Hop</strong>: pair of triplets, intersecting at single entity. The question is constructed similar to simple question, however the repeated entity must not be mentioned in question. It is used as a bridge-entity, which is described in question as a reference extracted from another triplet.</li>
+                        </ul>
+                        <p>
+                            Each subgraph is passed to the language model, which is instructed to generate both a natural language question and corresponding answer. The question is formulated as a coherent sentence, while the answer consists of one or more entities derived from the subgraph.
+                        </p>
+                        <h2 class="title is-4">QA Filtering</h2>
+                        <p>
+                            (Details on QA Filtering would go here if available in the source text. The provided .tex snippet ends before this section is detailed.)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-light">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths content">
+                    <h2 class="title is-3">Citation</h2>
+                    <p>Please cite our work as below if you find it helpful:</p>
+                    <pre><code>@article{dragon_news_rag_2024,
+    title={{DRAGoN}: Dynamic {RAG} Benchmark on News}, 
+    author={Sergei Averkiev and Fedor Chernogorsky},
+    year={2024},
+    journal={arXiv preprint arXiv:YOUR_ARXIV_ID_IF_AVAILABLE},
+    url={https://arxiv.org/abs/YOUR_ARXIV_ID_IF_AVAILABLE}, 
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
