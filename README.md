@@ -54,23 +54,3 @@ flowchart LR
     class LB leaderboard
 
 ```
-
-### Client library
-
-TBD
-
-### QA dataset generation pipeline
-
-TBD
-
-### Usage
-
-TBD
-
-### License
-
-TBD
-
-### Acknowledgement
-
-TBD
