@@ -140,7 +140,7 @@
         </div>
     </section>
 
-    <section class="section">
+    <!-- <section class="section">
         <div class="container is-max-desktop">
             <div class="columns is-centered">
                 <div class="column is-four-fifths">
@@ -168,9 +168,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <section class="section has-background-light">
+    <section class="section">
         <div class="container is-max-desktop">
             <div class="columns is-centered">
                 <div class="column is-four-fifths">
@@ -180,7 +180,7 @@
                             The benchmark is designed to evaluate retrieval-augmented generation (RAG) systems in a realistic way, dynamically evolving news domain. It's architecture prioritizes modularity, automation, and reproducibility while addressing the core challenges in the RAG evaluation landscape.
                         </p>
                         <h2 class="title is-4">Architecture of the Dynamic Benchmark</h2>
-                        <p>The whole pipeline of the benchmark architecture can be explored in Figure 1 (re-referencing the main pipeline image).</p>
+                        <p>The whole pipeline of the benchmark architecture can be explored in Figure 1.</p>
                         
                         <h3 class="title is-5">Data Acquisition and Processing</h3>
                         <p>
@@ -216,14 +216,20 @@
                             <li>Submit results via API to our evaluation portal.</li>
                         </ul>
                         <p>User workflow includes loading public data, applying a custom RAG pipeline, and collecting results in the following form:</p>
-                        <pre><code>{\n    "0": {\n        "found_ids": [17, 69, 69, 22, ...],\n        "model_answer": "Ответ: Хэмм."\n    },\n    ...\n}</code></pre>
+                        <pre><code>{
+    "0": {
+        "found_ids": [17, 69, 22, ...],
+        "model_answer": "На Головинских прудах"
+    },
+    ...
+}</code></pre>
                         <p>
                             These results encode both the retrieved <code>public_id</code>s and the generated answers, decoupling the user's model output from any private evaluation artifacts. This separation allows secure evaluation without exposing ground-truth data.
                         </p>
 
                         <h3 class="title is-5">Validation Portal</h3>
                         <p>
-                            Submitted results then are sent to the <strong>Validation Portal</strong> --- a Flask-based backend with Single Page Application written in Vue as a frontend that performs secure evaluation using the private datasets. The portal:
+                            Submitted results then are sent to the <strong>Validation Portal</strong> — a Flask-based backend with Single Page Application written in Vue as a frontend that performs secure evaluation using the private datasets. The portal:
                         </p>
                         <ul>
                             <li>Maps submitted <code>public_id</code>s to internal <code>id</code>s;</li>
@@ -232,18 +238,18 @@
                             <li>Stores evaluation logs and version metadata;</li>
                             <li>Requires admin approval before publishing to the leaderboard unless working with automatic submission.</li>
                         </ul>
-                        <p>Importantly, users submit only their results --- all ground-truth data remains internal.</p>
+                        <p>Importantly, users submit only their results — all ground-truth data remains internal.</p>
                         
                         <h3 class="title is-5">Leaderboard and Auto-Evaluation</h3>
                         <p>
-                            A Hugging Face Gradio Space serves as the public <strong>Leaderboard</strong>. Results are committed in a version-controlled <code>results.json</code> file, automatically updated by the validation portal upon approval.
+                            A Hugging Face Gradio Space serves as the public <strong>Leaderboard</strong>. Results are committed in a version-controlled file, automatically updated by the validation portal upon approval.
                         </p>
                         <p>
-                            To reduce latency and improve benchmarking coverage, we support automatic evaluation for selected pre-approved models (e.g., LLaMA variants). These are computed via the same <code>rag_bench</code> client, but using <code>auto_submit</code> mode, authenticated with a privileged API token. This mechanism is intentionally restricted to prevent misuse and preserve benchmark integrity.
+                            To reduce latency and improve benchmarking coverage, we support automatic evaluation for selected pre-approved models (e.g., LLaMA variants). These are computed via the same <code>rag_bench</code> client, but using <code>auto_submit</code> mode, authenticated with a privileged API token.
                         </p>
                         <div class="has-text-centered">
-                            <img src="static/images/leaderboard_1.png" alt="Leaderboard Interface" />
-                            <p style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 2: Leaderboard interface.</p>
+                            <img src="static/images/leaderboard_1.png" style="margin-top:30px;" alt="Leaderboard Interface" />
+                            <p  class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 2: Leaderboard interface.</p>
                         </div>
                         
                         <h3 class="title is-5">Versioning Strategy</h3>
@@ -271,11 +277,11 @@
                         <p>The Data Generation pipeline (Figure 3) consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.</p>
                         <div class="has-text-centered">
                             <img src="static/images/qg_pipeline.png" alt="Data Generation Pipeline" />
-                            <p style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 3: Architecture of the Data Generation pipeline.</p>
+                            <p class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 3: Architecture of the Data Generation pipeline.</p>
                         </div>
                         <h2 class="title is-4">Knowledge Graph Extraction</h2>
                         <p>
-                            To enable greater control over question generation, we developed a Knowledge Graph Extraction module. The extraction pipeline is inspired by the method proposed by~\\citet{chepurova2024prompt}. Specifically, we prompt an LLM to extract triplets (subject-relation-object), search for similar entities within Wikidata index. Then the language model refines extracted relations, choosing the most plausible candidates from Wikidata and previously processed entities. To maintain the novelty of the resulting knowledge graph, we discard any relations found in Wikidata. We operate under the assumption that facts not included in Wikidata are novel and thus unlikely to have been seen by the language model.
+                            To enable greater control over question generation, we developed a Knowledge Graph Extraction module. Specifically, we prompt an LLM to extract triplets (subject-relation-object). Then the language model refines extracted relations, choosing the most plausible candidates. To maintain the novelty of the resulting knowledge graph, we discard any relations found in Wikidata. We operate under the assumption that facts not included in Wikidata are novel and thus unlikely to have been seen by the language model.
                         </p>
                         <h2 class="title is-4">Question Generation</h2>
                         <p>
@@ -290,10 +296,10 @@
                         <p>
                             Each subgraph is passed to the language model, which is instructed to generate both a natural language question and corresponding answer. The question is formulated as a coherent sentence, while the answer consists of one or more entities derived from the subgraph.
                         </p>
-                        <h2 class="title is-4">QA Filtering</h2>
+                        <!-- <h2 class="title is-4">QA Filtering</h2>
                         <p>
-                            (Details on QA Filtering would go here if available in the source text. The provided .tex snippet ends before this section is detailed.)
-                        </p>
+                            TBD
+                        </p> -->
                     </div>
                 </div>
             </div>
@@ -305,13 +311,12 @@
             <div class="columns is-centered">
                 <div class="column is-four-fifths content">
                     <h2 class="title is-3">Citation</h2>
-                    <p>Please cite our work as below if you find it helpful:</p>
-                    <pre><code>@article{dragon_news_rag_2024,
+                    <pre><code>@article{dragon_news_rag_2025,
     title={{DRAGON}: Dynamic {RAG} Benchmark on News}, 
-    author={Sergei Averkiev and Fedor Chernogorsky},
-    year={2024},
-    journal={arXiv preprint arXiv:YOUR_ARXIV_ID_IF_AVAILABLE},
-    url={https://arxiv.org/abs/YOUR_ARXIV_ID_IF_AVAILABLE}, 
+    author={ML people},
+    year={2025},
+    journal={arXiv preprint arXiv:},
+    url={https://arxiv.org/abs/}, 
 }</code></pre>
                 </div>
             </div>
