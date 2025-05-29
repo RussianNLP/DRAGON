@@ -25,14 +25,19 @@
                 <div class="columns is-centered">
                     <div class="column has-text-centered">
                         <h1 class="title is-1 publication-title" style="font-size: 2.6rem;">
-                            DRAGON: Dynamic RAG On News benchmark
+                            DRAGON: Dynamic RAG benchmark On News
                         </h1>
 
                         <img src="static/images/title.png" alt="DRAGON Pipeline" style="width:340px" />
                         
                         <div class="is-size-5 publication-authors">
+                            <span class="author-block">Fedor Chernogorsky<sup>1</sup>,</span>
                             <span class="author-block">Sergei Averkiev<sup>1</sup>, </span>
-                            <span class="author-block">Fedor Chernogorsky<sup>1</sup></span>
+                            <span class="author-block">Lilya Kudraleeva<sup>2</sup>, </span>
+                            <span class="author-block">Zaven Matrirosian<sup>1</sup>, </span>
+                            <span class="author-block">Maria Tikhonova<sup>1</sup>, </span>
+                            <span class="author-block">Valentin Malykh<sup>2</sup>, </span>
+                            <span class="author-block">Alena Fenogenova<sup>1</sup> </span>
                         </div>
 
                         <div class="column has-text-centered">
@@ -40,29 +45,31 @@
                                 <span class="link-block">
                                     <a href="https://github.com/TIGER-AI-Lab/General-Reasoner" target="_blank" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon"><i class="fab fa-github"></i></span>
-                                        <span>Code (Example)</span>
+                                        <span>Code</span>
                                     </a>
                                 </span>
                                 <span class="link-block">
                                     <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon"><i class="ai ai-arxiv"></i></span>
-                                        <span>Paper (Example)</span>
+                                        <span>Paper</span>
                                     </a>
                                 </span>
-                                <!-- Add other relevant links if available -->
                             </div>
                         </div>
 
                         <div class="is-size-5 publication-authors">
                             <span class="author-block">
-                                <sup>1</sup>SberDevices
+                                <sup>1</sup>Sber
+                            </span>
+                            <span class="author-block">
+                                <sup>2</sup>Ne Sber
                             </span>
                             <br>
-                            <span class="author-block">
+                            <!-- <span class="author-block">
                                 <small>
                                     averoo@gmail.com, fedor.chernogorsky@sberdevices.ru
                                 </small>
-                            </span>
+                            </span> -->
                         </div>
 
                     </div>
@@ -81,7 +88,7 @@
                             Retrieval-Augmented Generation (RAG) is a widely adopted approach for improving the factuality of large language models (LLMs) by incorporating external knowledge at inference time. While multiple RAG benchmarks exist for English, evaluation resources for other languages, including Russian, remain scarce and static, failing to capture the dynamic nature of real-world deployments.
                         </p>
                         <p>
-                            In this work, we present <strong>DRAGoN</strong> (Dynamic RAG Benchmark on News), the first dynamic benchmark for evaluating RAG systems in Russian. DRAGoN is built upon a regularly updated corpus of Russian news and public documents, and supports comprehensive evaluation of both retriever and generator components. We release all code and data to foster further research on retrieval-augmented generation and launch a public leaderboard.
+                            In this work, we present <strong>DRAGON</strong> (Dynamic RAG benchmark On News), the first dynamic benchmark for evaluating RAG systems in Russian. DRAGON is built upon a regularly updated corpus of Russian news and public documents, and supports comprehensive evaluation of both retriever and generator components. We release all code and data to foster further research on retrieval-augmented generation and launch a public leaderboard.
                         </p>
                     </div>
                 </div>
@@ -95,9 +102,9 @@
                 <div class="columns is-centered">
                     <div class="column is-four-fifths">
                         <div class="item">
-                            <img src="static/images/dragon_pipeline_d2_2.png" alt="DRAGoN Pipeline" />
+                            <img src="static/images/DRAGON_pipeline_d2_2.png" alt="DRAGON Pipeline" />
                             <p class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">
-                                Figure 1: Architecture of the DRAGoN benchmark system.
+                                Figure 1: Architecture of the DRAGON benchmark system.
                             </p>
                         </div>
                     </div>
@@ -119,11 +126,11 @@
                             While several RAG benchmarks have been proposed for the English language, the situation for other languages, including Russian, is significantly less developed.
                         </p>
                         <p>
-                            In this work, we focus on the evaluation of RAG systems for the Russian language. We introduce <strong>DRAGoN: Dynamic RAG Benchmark on News</strong> a novel benchmark that reflects realistic usage patterns by leveraging a regularly updated knowledge base derived from current news sources. To foster transparency and community engagement, we publicly release the code, a modular evaluation suite, and a dynamic leaderboard to track progress on RAG-based systems in Russian.
+                            In this work, we focus on the evaluation of RAG systems for the Russian language. We introduce <strong>DRAGON: Dynamic RAG Benchmark on News</strong> a novel benchmark that reflects realistic usage patterns by leveraging a regularly updated knowledge base derived from current news sources. To foster transparency and community engagement, we publicly release the code, a modular evaluation suite, and a dynamic leaderboard to track progress on RAG-based systems in Russian.
                         </p>
                         <p><strong>Our contributions are as follows:</strong></p>
                         <ul>
-                            <li>We propose <strong>DRAGoN</strong>, the first RAG benchmark with a regularly updated knowledge base for the Russian language, designed to evaluate RAG systems in a dynamic setup.</li>
+                            <li>We propose <strong>DRAGON</strong>, the first RAG benchmark with a regularly updated knowledge base for the Russian language, designed to evaluate RAG systems in a dynamic setup.</li>
                             <li>We release an open-source evaluation pipeline, enabling reproducible experimentation and easy integration of new models and retrieval components.</li>
                             <li>We launch a public leaderboard to support reproducible, and community-driven research.</li>
                         </ul>
@@ -155,7 +162,7 @@
                            Despite these advances, most RAG benchmarks remain focused on English. Evaluation for other languages remains limited. Face4RAG~\cite{xu2024face4rag} proposes a factuality benchmark in Chinese, which focuses on the coverage of typical hallucination types. NoMIRACL~\cite{thakur2024nomiracl} provides multilingual QA tasks in 18 languages and analyzes retrieval failures and hallucination rates. BORDIRLINES~\cite{chakrabarty2024bordirlines} explores cross-lingual RAG in politically sensitive settings. For Russian, RusBEIR~\cite{kovalev2025building} offers retrieval-only evaluation but a full end-to-end RAG benchmark has yet to be developed.
                         </p>
                         <p>
-                            To address this need of a comprehesive real-world RAG benchmark in Russian we present <strong>DRAGoN</strong> -- a dynamic, regularly updated benchmark for Russian-language RAG systems based on real-world, shifting corpora.
+                            To address this need of a comprehesive real-world RAG benchmark in Russian we present <strong>DRAGON</strong> -- a dynamic, regularly updated benchmark for Russian-language RAG systems based on real-world, shifting corpora.
                         </p>
                     </div>
                 </div>
@@ -300,7 +307,7 @@
                     <h2 class="title is-3">Citation</h2>
                     <p>Please cite our work as below if you find it helpful:</p>
                     <pre><code>@article{dragon_news_rag_2024,
-    title={{DRAGoN}: Dynamic {RAG} Benchmark on News}, 
+    title={{DRAGON}: Dynamic {RAG} Benchmark on News}, 
     author={Sergei Averkiev and Fedor Chernogorsky},
     year={2024},
     journal={arXiv preprint arXiv:YOUR_ARXIV_ID_IF_AVAILABLE},
