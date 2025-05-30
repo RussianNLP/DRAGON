@@ -1,0 +1,35 @@
+###Task Description:
+An instruction (might include an Input inside it), a response to evaluate, a reference answer and a score rubric representing a evaluation criteria are given.
+1. Write a detailed feedback that assess the quality of the response strictly based on the given score rubric, not evaluating in general.
+2. After writing a feedback, write a score. You should refer to the score rubric. The score must be described in the rubrics.
+3. The output format should look as follows: "[EXPLAIN]: (write a feedback and an explanation about meeting the criteria, reasoning step by step and explaining each argument.) [SCORE] (an integer number within the boundaries of the rubrics)"
+4. Please do not generate any other opening, closing, and explanations.
+5. Write [END] after you are done.
+
+### The instruction to evaluate:
+Вы эксперт умеющий отвечать на вопросы по заданному тексту.
+Ваша задача — дать максимально точный и краткий ответ на поставленный вопрос.
+Старайтесь отвечать кратко и не использовать описания. В ответе должна быть одна или несколько сущностей, разделенных запятыми.
+На вход вам передается текст и вопрос, вам необходимо ответить на заданный вопрос используя информацию из текста.
+
+
+Текст:
+{text}
+
+Вопрос:
+{question}
+
+### Response to evaluate:
+{answer}
+
+### Score name
+Корректность
+
+### Score Rubrics:
+0: Модель некорректно ответила на вопрос
+
+1: Модель ответила на вопрос, но допустила некоторые неточности
+
+2: Ответ модели абсолютно корректен и не нуждается в дополнениях и исправлениях
+
+### Feedback:

@@ -1,0 +1,208 @@
+format: csv
+data_dir: data/news/subsamples
+file_pattern: "20.csv"
+process_columns:
+  - "yandex_full-text"
+  - "id"
+
+pre_process:
+  ner:
+    text: yandex_full-text
+
+output_dir: results/8b_vllm_example
+
+
+global_lm_config: cfg/qg_graph/llama3-8b-chat.yaml
+
+graph_extraction:
+  lm_config: cfg/graph_extraction/llama3-8b-st1-vllm.yaml
+  lm_config2: cfg/graph_extraction/llama3-8b-st2-vllm.yaml
+  relation_mapping: wd_index/relation_mapping.json
+  entity_mapping: wd_index/entity_mapping.json
+  relation_index: wd_index/wikidata_relations.index
+  entity_index: wd_index/wikidata_entities.index
+  rebuild: True
+
+graph_questions:
+  lm_config: cfg/qg_graph/llama3-8b-chat.yaml
+  tasks:
+    - type: simple
+      n: -1
+      override:
+        instruction: "<relations>\n{rel}\n</relations>"
+        sys_prompt: graph_qg/chat_instruction/simple2.txt
+        few_shots: graph_qg/fewshots/simple2.json
+    - type: set
+      n: -1
+      override:
+        override:
+        instruction: "<relations>\n{rel}\n</relations>"
+        sys_prompt: graph_qg/chat_instruction/set2.txt
+        few_shots: graph_qg/fewshots/set2.json
+    - type: mh
+      n: -1
+      override:
+        override:
+        instruction: "<relations>\n{rel}\n</relations>"
+        sys_prompt: graph_qg/chat_instruction/mh2.txt
+        few_shots: graph_qg/fewshots/mh2.json
+    - type: cond
+      n: -1
+      override:
+        override:
+        instruction: "<relations>\n{rel}\n</relations>"
+        sys_prompt: graph_qg/chat_instruction/cond2.txt
+        few_shots: graph_qg/fewshots/cond2.json
+    - type: comp
+      n: -1
+      override:
+        override:
+        instruction: "<relations>\n{rel}\n</relations>"
+        sys_prompt: graph_qg/chat_instruction/comp2.txt
+        few_shots: graph_qg/fewshots/comp2.json
+
+
+post_process:
+  - type: transform
+    name: match_ner
+    cols:
+      - ein
+      - eina
+      - einq
+    to_column: nercnt
+
+  - type: filter
+    column_name: nercnt
+    thr: 0
+
+  - type: transform
+    name: hf_classify
+    from_column: question
+    to_column: rucola
+    model_path: models/ruRoBERTa-large-rucola
+    device: cuda
+    batch_size: 100
+
+  - type: filter
+    column_name: rucola
+    thr: 0.7
+
+  - type: transform
+    name: ein
+    ent_col: ein
+    find_in:
+      - question
+    to_column: ein_q
+
+  - type: transform
+    name: ein
+    ent_col: ein
+    find_in:
+      - answer
+    to_column: ein_a
+
+  - type: transform
+    name: ein
+    ent_col: einq
+    find_in:
+      - question
+    to_column: ein_qq
+
+  - type: transform
+    name: ein
+    ent_col: eina
+    find_in:
+      - answer
+    to_column: ein_aa
+
+  - type: transform
+    name: ein
+    ent_col: sent
+    find_in:
+      - question
+      - answer
+    to_column: extra_ent
+
+  - type: answer_generation
+    models:
+      - column_name: qwen25-7b
+        lm_config: cfg/qg_graph/qwen25-7b-chat_QA.yaml
+      - column_name: llama3-8b
+        lm_config: cfg/qg_graph/llama3-8b-chat_QA.yaml
+
+    filters:
+    - type: bert_score
+      model_name: ai-forever/ru-en-RoSBERTa
+      thr: 0.9
+      drop: False  # Если False - оставляем колонки со сгенерированными ответами и не удаляем вопросы по bert_scoreы
+
+
+judge:
+  lm_config: cfg/eval/judge-chat.yaml
+  instructions:
+    grammar: eval/question/grammar.txt
+    context_sufficiency: eval/question/context_sufficiency.txt
+    clearness: eval/question/clearness.txt
+    naturalness: eval/question/naturalness.txt
+    context_necessity: eval/question/context_necessity.txt
+    uniqueness: eval/answer/uniqueness.txt
+    correctness: eval/answer/correctness.txt
+    ans_grammar: eval/answer/ans_grammar.txt
+    context_uniqueness: eval/answer/context_uniqueness.txt
+
+
+filter:
+  simple:
+    - type: filter
+      columns: is_simple
+      thr: 0.8
+    - type: select
+      columns: ['grammar_score', 'context_sufficiency_score', 'clearness_score', 'naturalness_score', 'context_necessity_score', 'correctness_score', 'ans_grammar_score', 'context_uniqueness_score']
+      val: 2
+    - type: sort
+      func: dev_f1
+      columns: ['ein_q', 'ein_a']
+      ascending: True
+    - type: topn
+      n: 20
+  set:
+    - type: filter
+      columns: is_simple
+      thr: 0.8
+    # - type: sim_ents
+    - type: sort
+      func: f1
+      columns: ['grammar_score', 'context_sufficiency_score', 'clearness_score', 'naturalness_score', 'context_necessity_score', 'correctness_score', 'ans_grammar_score', 'context_uniqueness_score']
+    - type: topn
+      n: 150
+  mh:
+    - type: filter
+      columns: is_simple
+      thr: 0.8
+    - type: filter_peaks
+      columns: ['ein_q', 'ein_a']
+      q: 0.05
+    - type: filter
+      columns: extra_ent
+      thr: 80
+    - type: sort
+      func: f1
+      columns: ['grammar_score', 'context_sufficiency_score', 'clearness_score', 'naturalness_score', 'context_necessity_score', 'correctness_score', 'ans_grammar_score', 'context_uniqueness_score']
+    - type: topn
+      n: 150
+  cond:
+    - type: filter
+      columns: is_simple
+      thr: 0.8
+    - type: filter
+      columns: ein_aa
+      thr: 80
+      how: gt
+    - type: select
+      columns: ['grammar_score', 'context_sufficiency_score', 'clearness_score', 'naturalness_score', 'context_necessity_score', 'correctness_score', 'ans_grammar_score', 'context_uniqueness_score']
+      val: 2
+    - type: sort
+      columns: ein_qq
+    - type: topn
+      n: 150
+      

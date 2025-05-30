@@ -1,0 +1,26 @@
+model_type: vllm
+model_path: models/Llama-3.3-70B-Instruct
+tp_size: 4
+model_torch_dtype: float16
+device: 'cuda'
+
+dataset_path: ''
+output_path: ''
+
+instruction: "{rel}"
+sys_prompt: graph_qg/chat_instruction/simple.txt
+few_shots: graph_qg/fewshots/simple.json
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'rel': 'sample'
+  'aid': 'aid'
+  'text': 'yandex_full-text'
+  'url': 'id'
+  'ein': 'ein'
+  'eina': 'eina'
+  'einq': 'einq'
+  'sent': 'sent'
+

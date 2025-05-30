@@ -1,0 +1,19 @@
+model_type: vllm
+model_path: models/Meta-Llama-3-8B-Instruct
+tp_size: 1
+model_torch_dtype: bfloat16
+device: 'cuda'
+
+dataset_path: ''
+output_path: ''
+
+instruction: "{question} Количество слов: {answer_words_count}."
+sys_prompt: answer_generation/system.txt
+few_shots: answer_generation/fewshots.json
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'question': 'question'
+  'answer_words_count': 'answer_words_count'

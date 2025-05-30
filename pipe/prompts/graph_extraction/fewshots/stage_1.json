@@ -1,0 +1,26 @@
+[
+    {
+        "role": "user",
+        "content": "Text: \"Tahiti Honey\" is an English-language film written by Frederick Kohner."
+    },
+    {
+        "role": "assistant",
+        "content": "[\n{\n\"subject\": \"Tahiti Honey\",\n\"relation\": \"original language of film or TV show\", \n\"object\": \"English language\"\n},\n{\n\"subject\": \"Tahiti Honey\",\n\"relation\": \"instance of\", \n\"object\": \"Film\"\n},\n{\n\"subject\": \"Tahiti Honey\",\n\"relation\": \"screenwriter\", \n\"object\": \"Frederick Kohner\"\n}\n]"
+    },
+    {
+        "role": "user",
+        "content": "Text: Józef Skrobiński was a Polish film director and member of the Association of Polish Artists and Designers, located in Warsaw, Poland."
+    },
+    {
+        "role": "assistant",
+        "content": "[\n{\n\"subject\": \"Józef Skrobiński\",\n\"relation\": \"languages spoken, written or signed\", \n\"object\": \"Polish language\"\n},\n{\n\"subject\": \"Józef Skrobiński\",\n\"relation\": \"occupation\", \n\"object\": \"Film director\"\n},\n{\n\"subject\": \"Józef Skrobiński\",\n\"relation\": \"member of\", \n\"object\": \"Association of Polish Artists and Designers\"\n},\n{\n\"subject\": \"Józef Skrobiński\",\n\"relation\": \"country of citizenship\", \n\"object\": \"Poland\"\n},\n{\n\"subject\": \"Józef Skrobiński\",\n\"relation\": \"instance of\", \n\"object\": \"Human\"\n},\n{\n\"subject\": \"Association of Polish Artists and Designers\",\n\"relation\": \"located in the administrative territorial entity\", \n\"object\": \"Warsaw\"\n},\n{\n\"subject\": \"Association of Polish Artists and Designers\",\n\"relation\": \"country\", \n\"object\": \"Poland\"\n}\n]"
+    },
+    {
+        "role": "user",
+        "content": "Text: Jorge Merino is a Spanish footballer who plays as a midfielder for Marino de Luanco."
+    },
+    {
+        "role": "assistant",
+        "content": "[\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"languages spoken, written or signed\", \n\"object\": \"Spanish language\"\n},\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"sport\", \n\"object\": \"Association football\"\n},\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"occupation\", \n\"object\": \"Football player\"\n},\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"position played on team / speciality\", \n\"object\": \"Midfielder\"\n},\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"member of sports team\", \n\"object\": \"Marino de Luanco\"\n},\n{\n\"subject\": \"Jorge Merino\",\n\"relation\": \"country of citizenship\", \n\"object\": \"Spain\"\n},\n{\n\"subject\": \"Midfielder\",\n\"relation\": \"subclass of\", \n\"object\": \"Football player\"\n},\n{\n\"subject\": \"Midfielder\",\n\"relation\": \"instance of\", \n\"object\": \"Association football positions\"\n}\n]"
+    }
+]

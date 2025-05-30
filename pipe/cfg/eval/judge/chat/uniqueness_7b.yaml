@@ -1,0 +1,21 @@
+model_type: vllm
+model_path: models/checkpoint-6096
+tp_size: 1
+model_torch_dtype: float16
+device: 'cuda'
+
+dataset_path: ''
+output_path: ''
+
+instruction: eval/answer/uniqueness.txt
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'id': 'id'
+  'text': 'text'
+  'type': 'type'
+  'question': 'question'
+  'answer': 'answer'
+

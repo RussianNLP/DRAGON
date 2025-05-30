@@ -1,0 +1,17 @@
+model_type: api
+model_path: Meta-Llama-3-8B-Instruct
+api_base: http://localhost:8000/v1
+
+dataset_path: ''
+output_path: ''
+
+instruction: "Text: {text}"
+sys_prompt: graph_extraction/chat_instruction/sys_stage_1_ru.txt
+few_shots: graph_extraction/fewshots/stage_1_ru.json
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'text': 'yandex_full-text'
+  'url': 'id'

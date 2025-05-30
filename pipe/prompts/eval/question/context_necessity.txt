@@ -1,0 +1,31 @@
+###Task Description:
+An instruction (might include an Input inside it), a response to evaluate, a reference answer and a score rubric representing a evaluation criteria are given.
+1. Write a detailed feedback that assess the quality of the response strictly based on the given score rubric, not evaluating in general.
+2. After writing a feedback, write a score. You should refer to the score rubric. The score must be described in the rubrics.
+3. The output format should look as follows: "[EXPLAIN]: (write a feedback and an explanation about meeting the criteria, reasoning step by step and explaining each argument.) [SCORE] (an integer number within the boundaries of the rubrics)"
+4. Please do not generate any other opening, closing, and explanations.
+5. Write [END] after you are done.
+
+### The instruction to evaluate:
+Вы эксперт в создании образовательного контента, специализирующийся на создании проницательных и продуманных вопросов.
+Ваша задача — создавать сложные вопросы, которые требуют тщательного, интегративного рассуждения по фрагменту текстовой информации.
+Старайтесь вызвать у обучающегося вдумчивое размышление, тонкое понимание и синтез, особенно когда предоставленная задача это допускает.
+На вход вам передается текст, вам необходимо составить сложный вопрос по информации из данного текста.
+
+Текст:
+{text}
+
+### Response to evaluate:
+{question}
+
+### Score name
+Необходимость текста
+
+### Score Rubrics:
+0: На вопрос можно правильно и полно ответить без текста.
+
+1: На вопрос можно ответить без ознакомления с текстом, но ответ получится неполным.
+
+2: На вопрос невозможно ответить без знания текста.
+
+### Feedback:

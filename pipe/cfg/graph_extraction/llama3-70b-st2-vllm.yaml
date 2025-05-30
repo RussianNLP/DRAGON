@@ -1,0 +1,19 @@
+model_type: vllm
+model_path: models/Llama-3.3-70B-Instruct
+tp_size: 4
+model_torch_dtype: bfloat16
+device: 'cuda'
+
+dataset_path: ''
+output_path: ''
+
+instruction: "Text: {text} Triplets and corresponding entity and relation mappings: {mapping}"
+sys_prompt: graph_extraction/chat_instruction/sys_stage_2_ru.txt
+few_shots: graph_extraction/fewshots/stage_2_ru.json
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'text': 'text'
+  'mapping': 'mapping'
