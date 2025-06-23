@@ -1,0 +1,34 @@
+models:
+  - path: /models/FRIDA
+    query_instr: 'Question: '
+    text_instr: 'Text: '
+  - path: /models/BERTA
+    query_instr: 'Question: '
+    text_instr: 'Text: '
+  - path: /models/e5-mistral-7b-instruct
+    query_instr: 'Question: '
+    text_instr: 'Text: '
+  - path: /models/Qwen3-Embedding-8B
+    query_instr: 'Question: '
+    text_instr: 'Text: '
+  - path: /models/multilingual-e5-large-instruct
+    query_instr: 'Question: '
+    text_instr: 'Text: '
+  # - path: /models/GritLM-7B
+  #   query_instr: 'Question: '
+  #   text_instr: 'Text: '
+
+storage_params:
+  - top_k: 20
+    chunk_size: 500
+    chunk_overlap: 100
+    # batch_size: 1000
+  # - top_k: 5
+  #   chunk_size: 500
+  #   chunk_overlap: 100
+  #   # batch_size: 1000
+  # - top_k: 20
+  #   chunk_size: 1000
+  #   chunk_overlap: 200
+  #   # batch_size: 1000
+  

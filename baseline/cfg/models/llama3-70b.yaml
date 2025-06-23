@@ -1,0 +1,17 @@
+model_type: vllm
+model_path: Llama-3.3-70B-Instruct
+tp_size: 4
+model_torch_dtype: float16
+device: 'cuda'
+
+
+instruction: "Ответь на вопрос, используя предостваленный контекст. Верни только ответ.\n\n<context>{context}</context>\n\nQuestion: {question}\nAnswer:"
+chat_model: True
+
+max_new_tokens: 1000
+max_context_length: 2048
+prompt_subs:
+  'qid': 'qid'
+  'retriever': 'retriever'
+  'context': 'context'
+  'question': 'question' 
