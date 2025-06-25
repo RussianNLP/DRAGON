@@ -73,7 +73,8 @@ def extract(config, model=None, tokenizer=None, dataset=None, write=True):
             chat_model=config.chat_model,
             sys_prompt=config.sys_prompt,
             few_shots=config.few_shots,
-            prompt_subs=config.prompt_subs
+            prompt_subs=config.prompt_subs,
+            truncate=config.truncate
         )
 
     answers = answer_generator.generate_answers()
