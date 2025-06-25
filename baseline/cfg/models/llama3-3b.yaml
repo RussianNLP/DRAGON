@@ -10,10 +10,9 @@ chat_model: True
 
 max_new_tokens: 1000
 max_context_length: 2048
+truncate: 'context'
 prompt_subs:
   'qid': 'qid'
   'retriever': 'retriever'
   'context': 'context'
   'question': 'question'
-
-
