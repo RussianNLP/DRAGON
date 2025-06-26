@@ -1,19 +1,19 @@
 models:
   - path: /models/FRIDA
-    query_instr: 'Question: '
-    text_instr: 'Text: '
+    query_instr: 'search_query: '
+    text_instr: 'search_document: '
   - path: /models/BERTA
-    query_instr: 'Question: '
-    text_instr: 'Text: '
+    query_instr: 'search_query: '
+    text_instr: 'search_document: '
   - path: /models/e5-mistral-7b-instruct
-    query_instr: 'Question: '
-    text_instr: 'Text: '
+    query_instr: 'Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: '
+    text_instr: ''
   - path: /models/Qwen3-Embedding-8B
-    query_instr: 'Question: '
-    text_instr: 'Text: '
+    query_instr: 'Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: '
+    text_instr: ''
   - path: /models/multilingual-e5-large-instruct
-    query_instr: 'Question: '
-    text_instr: 'Text: '
+    query_instr: 'Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: '
+    text_instr: ''
   # - path: /models/GritLM-7B
   #   query_instr: 'Question: '
   #   text_instr: 'Text: '
