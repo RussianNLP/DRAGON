@@ -35,6 +35,7 @@ class LMConfig:
         self.tp_size = config.get('tp_size', 1)
         self.api_base = config.get('api_base', None)
         self.api_key = os.environ.get('API_KEY', 'EMPTY')
+        self.truncate = config.get('truncate', None)
 
     @classmethod
     def parse(cls, _cfg):
