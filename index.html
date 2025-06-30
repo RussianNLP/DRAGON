@@ -31,19 +31,19 @@
                         <img src="static/images/title.png" alt="DRAGON Pipeline" style="width:340px" />
                         
                         <div class="is-size-5 publication-authors">
-                            <span class="author-block">Fedor Chernogorsky<sup>1</sup>,</span>
-                            <span class="author-block">Sergei Averkiev<sup>1</sup>, </span>
-                            <span class="author-block">Lilya Kudraleeva<sup>2</sup>, </span>
-                            <span class="author-block">Zaven Matrirosian<sup>1</sup>, </span>
-                            <span class="author-block">Maria Tikhonova<sup>1</sup>, </span>
-                            <span class="author-block">Valentin Malykh<sup>2</sup>, </span>
-                            <span class="author-block">Alena Fenogenova<sup>1</sup> </span>
+                            <span class="author-block">Fedor Chernogorskii<sup>1,2</sup>,</span>
+                            <span class="author-block">Sergei Averkiev<sup>1</sup>,</span>
+                            <span class="author-block">Liliya Kudraleeva<sup>2</sup>,</span><br>
+                            <span class="author-block">Zaven Martirosian<sup>1,3</sup>,</span>
+                            <span class="author-block">Maria Tikhonova<sup>1,4</sup>,</span><br>
+                            <span class="author-block">Valentin Malykh<sup>2,5</sup>,</span>
+                            <span class="author-block">Alena Fenogenova<sup>1,4</sup></span>
                         </div>
 
                         <div class="column has-text-centered">
                             <div class="publication-links">
                                 <span class="link-block">
-                                    <a href="https://github.com/TIGER-AI-Lab/General-Reasoner" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                                    <a href="https://github.com/RussianNLP/DRAGON" target="_blank" class="external-link button is-normal is-rounded is-dark">
                                         <span class="icon"><i class="fab fa-github"></i></span>
                                         <span>Code</span>
                                     </a>
@@ -58,18 +58,11 @@
                         </div>
 
                         <div class="is-size-5 publication-authors">
-                            <span class="author-block">
-                                <sup>1</sup>Sber
-                            </span>
-                            <span class="author-block">
-                                <sup>2</sup>MTS
-                            </span>
-                            <br>
-                            <!-- <span class="author-block">
-                                <small>
-                                    averoo@gmail.com, fedor.chernogorsky@sberdevices.ru
-                                </small>
-                            </span> -->
+                            <span class="author-block"><sup>1</sup>SberAI</span>
+                            <span class="author-block"><sup>2</sup>ITMO</span>
+                            <span class="author-block"><sup>3</sup>MISIS</span>
+                            <span class="author-block"><sup>4</sup>HSE</span>
+                            <span class="author-block"><sup>5</sup>MWS AI</span>
                         </div>
 
                     </div>
@@ -101,8 +94,8 @@
             <div class="container is-max-desktop">
                 <div class="columns is-centered">
                     <div class="column is-four-fifths">
-                        <div class="item">
-                            <img src="static/images/DRAGON_pipeline_d2_2.png" alt="DRAGON Pipeline" />
+                        <div class="item has-text-centered">
+                            <img src="static/images/dragon_pipeline.png" alt="DRAGON Pipeline" width="420px"/>
                             <p class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">
                                 Figure 1: Architecture of the DRAGON benchmark system.
                             </p>
@@ -139,36 +132,6 @@
             </div>
         </div>
     </section>
-
-    <!-- <section class="section">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered">
-                <div class="column is-four-fifths">
-                    <h1 class="title is-3 has-text-centered">Related Work</h1>
-                    <div class="content has-text-justified">
-                        <p>
-                            Proper assessment of RAG systems requires holistic benchmarks that evaluate both the retrieval and generation components. For the English language, a growing body of research has focused on designing such benchmarks across a range of reasoning and grounding challenges.
-                        </p>
-                        <p>
-                            KILT~\cite{petroni2021kilt} provides a unified benchmark over a fixed Wikipedia snapshot, with an emphasis on source attribution and retrieval grounding. BEIR~\cite{thakur2021beir} represents a robust benchmark aimed at evaluation of ten diverse retrieval methods. Recent benchmarks~\cite{tang2024multihoprag}, \cite{krishna2024frames} have also focused on more complex multi-hop and reasoning-centric tasks. Conversational settings with multi-turn dialogue scenarios are investigated in mtRAG~\cite{katsis2025mtrag} and RAD-Bench~\cite{kuo2025radbench}.
-                        </p>
-                        <p>
-                            The factual consistency of generated responses in RAG has emerged as a critical challenge. RAGTruth~\cite{chadha2024ragtruth} presents a large-scale corpus for analyzing word-level hallucinations in various domains and tasks. FaithDial~\cite{dziri2022faithdial} adapts Wizard-of-Wikipedia into a hallucination-free setting. CRAG~\cite{yang2024crag} introduces a comprehensive benchmark based on five main RAG features. Q<sup>2</sup>~\cite{honovich2021q2} introduces a QA-style consistency probing framework. RAGAS~\cite{es2024ragas} proposes a reference-free evaluation suite capturing context relevance, faithfulness, and answer completeness, along with an open-source API for practical benchmarking.
-                        </p>
-                        <p>
-                            Real-world deployment of RAG systems often require evaluation on continuously evolving information sources. RealTime QA~\cite{kasai2023realtimeqa} introduces a dynamic benchmark of time-sensitive questions.
-                        </p>
-                        <p>
-                           Despite these advances, most RAG benchmarks remain focused on English. Evaluation for other languages remains limited. Face4RAG~\cite{xu2024face4rag} proposes a factuality benchmark in Chinese, which focuses on the coverage of typical hallucination types. NoMIRACL~\cite{thakur2024nomiracl} provides multilingual QA tasks in 18 languages and analyzes retrieval failures and hallucination rates. BORDIRLINES~\cite{chakrabarty2024bordirlines} explores cross-lingual RAG in politically sensitive settings. For Russian, RusBEIR~\cite{kovalev2025building} offers retrieval-only evaluation but a full end-to-end RAG benchmark has yet to be developed.
-                        </p>
-                        <p>
-                            To address this need of a comprehesive real-world RAG benchmark in Russian we present <strong>DRAGON</strong> -- a dynamic, regularly updated benchmark for Russian-language RAG systems based on real-world, shifting corpora.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <section class="section">
         <div class="container is-max-desktop">
@@ -248,7 +211,7 @@
                             To reduce latency and improve benchmarking coverage, we support automatic evaluation for selected pre-approved models (e.g., LLaMA variants). These are computed via the same <code>rag_bench</code> client, but using <code>auto_submit</code> mode, authenticated with a privileged API token.
                         </p>
                         <div class="has-text-centered">
-                            <img src="static/images/leaderboard_1.png" style="margin-top:30px;" alt="Leaderboard Interface" />
+                            <img src="static/images/leaderboard.png" style="margin-top:30px;" alt="Leaderboard Interface" width="600px"/>
                             <p  class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 2: Leaderboard interface.</p>
                         </div>
                         
@@ -276,7 +239,7 @@
                     <div class="content has-text-justified">
                         <p>The Data Generation pipeline (Figure 3) consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.</p>
                         <div class="has-text-centered">
-                            <img src="static/images/qg_pipeline.png" alt="Data Generation Pipeline" />
+                            <img src="static/images/qg_pipeline.png" alt="Data Generation Pipeline" width="600px" />
                             <p class="has-text-centered" style="font-size: 0.95rem; font-style: italic; margin-top: 0.5rem;">Figure 3: Architecture of the Data Generation pipeline.</p>
                         </div>
                         <h2 class="title is-4">Knowledge Graph Extraction</h2>
@@ -312,7 +275,7 @@
                 <div class="column is-four-fifths content">
                     <h2 class="title is-3">Citation</h2>
                     <pre><code>@article{dragon_news_rag_2025,
-    title={{DRAGON}: Dynamic {RAG} Benchmark on News}, 
+    title={DRAGON: Dynamic RAG Benchmark On News}, 
     author={ML people},
     year={2025},
     journal={arXiv preprint arXiv:},
