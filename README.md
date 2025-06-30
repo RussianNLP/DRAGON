@@ -1,7 +1,7 @@
 # Dynamic RAG On News benchmark (DRAGON)
 
 <p align="center">
-  <img src="./static/images/title.png" width="320px" />
+  <img src="./static/images/title.png" width="260px" />
 </p>
 
 ## Architecture
