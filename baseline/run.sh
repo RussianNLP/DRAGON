@@ -8,6 +8,10 @@ pub_questions="ai-forever/test-rag-bench-public-questions"
 priv_texts="ai-forever/test-rag-bench-private-texts"
 priv_qa="ai-forever/test-rag-bench-private-qa"
 
+CUR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+cd $CUR_DIR
+
 python -m src.pred_retr \
     --config cfg/retrievals.yaml \
     --version $version \
@@ -40,4 +44,10 @@ for config_file in "$config_dir"/*; do
         python -m src.lm.lm_extraction $config_file
     fi
 done
+
+cd $CUR_DIR
+
+python src/combine_gens.py \
+    --output_dir $output_dir \
+    --version $version
 
