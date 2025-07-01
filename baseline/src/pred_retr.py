@@ -55,11 +55,6 @@ def main(config, version, output_dir, cache_dir, pub_texts, pub_questions):
 
     for model_cfg in config['models']:
         print('MODEL:', model_cfg['path'])
-        # embs_model = PromptedHFEmbeddings(
-        #     model_name=model_cfg['path'],
-        #     q_instr=model_cfg['query_instr'],
-        #     text_instr=model_cfg['text_instr']
-        # )
 
         text_kwargs, q_kwargs = dict(), dict()
         if 'query_instr' in model_cfg:

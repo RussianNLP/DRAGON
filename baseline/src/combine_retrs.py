@@ -30,16 +30,10 @@ def main(retr_files,
          output_file,
          cache_dir,
          pub_texts,
-         pub_questions,
-         priv_texts,
-         priv_qa):
+         pub_questions):
 
     pub_texts_df = load_dataset(pub_texts, revision=version, cache_dir=cache_dir, split='train').to_pandas()
     pub_questions_df = load_dataset(pub_questions, revision=version, cache_dir=cache_dir, split='train').to_pandas()
-    priv_texts_df = load_dataset(priv_texts, revision=version, cache_dir=cache_dir, split='train').to_pandas()
-    priv_qa_df = load_dataset(priv_qa, revision=version, cache_dir=cache_dir, split='train').to_pandas()
-
-    priv_qa_df['text_ids'] = priv_qa_df['text_ids'].apply(collect_text_ids)
 
     dfs = []
     for fp in retr_files:
@@ -72,13 +66,11 @@ if __name__ == "__main__":
     parser.add_argument('--cache_dir', type=Path, default='./cache')
     parser.add_argument('--pub_texts', type=str, default="ai-forever/test-rag-bench-public-texts")
     parser.add_argument('--pub_questions', type=str, default="ai-forever/test-rag-bench-public-questions")
-    parser.add_argument('--priv_texts', type=str, default="ai-forever/test-rag-bench-private-texts")
-    parser.add_argument('--priv_qa', type=str, default="ai-forever/test-rag-bench-private-qa")
     args = parser.parse_args()
     
     retr_dir = args.output_dir / args.version / 'retrievals'
     retr_files = [p for p in retr_dir.glob('*.json')]
     output_file = args.output_dir / args.version / 'gen_input.json'
 
-    main(retr_files, args.version, output_file, args.cache_dir,
-         args.pub_texts, args.pub_questions, args.priv_texts, args.priv_qa)
+    main(retr_files, args.version, output_file,
+         args.cache_dir, args.pub_texts, args.pub_questions)

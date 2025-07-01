@@ -173,6 +173,8 @@ class vLLM_AnswerGenerator(AnswerGenerator):
         else:
             self.dataset = self.dataset.map(self.create_prompt)
 
+        print('Prompt example:\n{}'.format(self.dataset[0]['prompt']))
+
         generated_answers = []
 
         if len(self.dataset) == 0:
