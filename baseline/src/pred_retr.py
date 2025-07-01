@@ -9,10 +9,6 @@ from rag_bench.baseline import init_retriever
 from rag_bench.helper import get_ds_versions
 
 
-_pub_texts = "ai-forever/test-rag-bench-public-texts"
-_pub_questions = "ai-forever/test-rag-bench-public-questions"
-
-
 def retrieve_predict(embs_model,
                      output_path,
                      qa_dataset,
@@ -45,14 +41,14 @@ def retrieve_predict(embs_model,
         json.dump(results, f)
     
 
-def main(config, version, output_dir, cache_dir):
+def main(config, version, output_dir, cache_dir, pub_texts, pub_questions):
     texts_ds = load_dataset(
-        _pub_texts,
+        pub_texts,
         revision=version,
         cache_dir=cache_dir
     )
     questions_ds = load_dataset(
-        _pub_questions,
+        pub_questions,
         revision=version,
         cache_dir=cache_dir
     )
@@ -99,6 +95,8 @@ if __name__ == "__main__":
     parser.add_argument('--version', type=str, required=True)
     parser.add_argument('--output_dir', type=Path, required=True)
     parser.add_argument('--cache_dir', type=str, default=None)
+    parser.add_argument('--pub_texts', type=str, default="ai-forever/test-rag-bench-public-texts")
+    parser.add_argument('--pub_questions', type=str, default="ai-forever/test-rag-bench-public-questions")
     args = parser.parse_args()
     
     with open(args.config, 'r') as f:
@@ -107,4 +105,4 @@ if __name__ == "__main__":
     output_dir = args.output_dir / args.version / 'retrievals'
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    main(config, args.version, output_dir, args.cache_dir)
+    main(config, args.version, output_dir, args.cache_dir, args.pub_texts, args.pub_questions)
