@@ -1,5 +1,6 @@
+export HF_TOKEN=""
 output_dir=""
-version="1.56.0"
+version="1.66.0"
 
 judge_configs_dir="${output_dir}/${version}/judge_configs"
 judge_model_path=""
