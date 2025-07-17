@@ -19,7 +19,8 @@ class AnswerGenerator:
         chat_model,
         sys_prompt,
         few_shots=None,
-        prompt_subs=None
+        prompt_subs=None,
+        truncate=None
     ):
         self.model = model
         self.tokenizer = tokenizer
@@ -31,6 +32,7 @@ class AnswerGenerator:
         self.chat_model = chat_model
         self.sys_prompt = sys_prompt
         self.few_shots = few_shots
+        self.truncate = truncate
         if prompt_subs is None:
             self.prompt_subs = {
                 'context': 'text',
@@ -53,8 +55,17 @@ class AnswerGenerator:
     def create_prompt(self, sample):
         return self._create_prompt(sample)
 
+    def truncate_text(self, text, max_new_len):
+        tokenized_text = self.tokenizer(
+            text,
+            truncation=True,
+            max_length=max_new_len,
+            add_special_tokens=False)['input_ids']
+        truncated_text = self.tokenizer.decode(tokenized_text)
+
+        return truncated_text
+
     def create_chat_messages(self, sample):
-        prompt = self._create_prompt(sample)
         messages = []
         if self.sys_prompt:
             messages.append(
@@ -65,6 +76,21 @@ class AnswerGenerator:
             )
         if self.few_shots:
             messages.extend(self.few_shots)
+
+        if self.truncate:
+            truncate_column = self.truncate
+            tokenized_messages_length = len(self.tokenizer.apply_chat_template(
+                messages,
+                tokenize=True,
+                add_generation_prompt=True,
+            )) if len(messages) else 0
+
+            max_prompt_length = self.max_context_length - tokenized_messages_length
+            sample[truncate_column] = self.truncate_text(
+                text=sample[truncate_column],
+                max_new_len=int(max_prompt_length*0.9))
+
+        prompt = self._create_prompt(sample)
         messages.append({"role": "user", "content": prompt})
         return messages
 
@@ -146,6 +172,8 @@ class vLLM_AnswerGenerator(AnswerGenerator):
             )
         else:
             self.dataset = self.dataset.map(self.create_prompt)
+
+        print('Prompt example:\n{}'.format(self.dataset[0]['prompt']))
 
         generated_answers = []
 

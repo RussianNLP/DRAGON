@@ -2,3 +2,5 @@ datasets
 rouge_score
 tqdm
 tabulate
+langchain
+langchain-chroma

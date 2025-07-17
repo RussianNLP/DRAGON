@@ -14,7 +14,12 @@ from tqdm import tqdm
 
 
 def init_retriever(
-    dataset, embedding_model, top_k=5, chunk_size=500, chunk_overlap=100
+    dataset,
+    embedding_model,
+    top_k=5,
+    chunk_size=500,
+    chunk_overlap=100,
+    batch_size=1000,
 ):
     log("Initializing retriever")
     vector_store = Chroma(embedding_function=embedding_model)
@@ -31,7 +36,13 @@ def init_retriever(
     uuids = [str(uuid4()) for _ in range(len(splits))]
 
     vector_store.reset_collection()
-    vector_store.add_documents(documents=splits, ids=uuids)
+    for i in range(0, len(splits), batch_size):
+        batch = splits[i:i+batch_size]
+        batch_ids = uuids[i:i+batch_size]
+        vector_store.add_documents(
+            documents=batch,
+            ids=batch_ids
+        )
 
     retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": top_k})
 
@@ -47,7 +58,7 @@ def init_generation(retriever, model, llm_prompt=""):
         llm_prompt = """Answer a question using the provided context. Return answer only.
 
 <context>
-{context[:30000]}
+{context}
 </context>
 
 Question: {input}"""
