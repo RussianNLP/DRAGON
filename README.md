@@ -27,3 +27,17 @@ The client library, located in `lib/`, provides tools to benchmark RAG pipelines
 </p>
 
 The Data Generation pipeline consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.
+
+### Citation
+
+```
+@misc{chernogorskii2025dragondynamicragbenchmark,
+      title={DRAGON: Dynamic RAG Benchmark On News}, 
+      author={Fedor Chernogorskii and Sergei Averkiev and Liliya Kudraleeva and Zaven Martirosian and Maria Tikhonova and Valentin Malykh and Alena Fenogenova},
+      year={2025},
+      eprint={2507.05713},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2507.05713}, 
+}
+```
