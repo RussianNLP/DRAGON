@@ -8,7 +8,7 @@ from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from tqdm import tqdm
 
@@ -52,17 +52,25 @@ def init_retriever(
     return retriever
 
 
-def init_generation(retriever, model, llm_prompt=""):
+def init_generation(retriever, model, tokenizer, system_prompt=""):
     log("Initializing generation chain")
-    if not llm_prompt:
-        llm_prompt = """Answer a question using the provided context. Return answer only.
-
-<context>
-{context}
-</context>
-
-Question: {input}"""
-    prompt = ChatPromptTemplate.from_template(llm_prompt)
+    if (system_prompt is None) or (len(system_prompt.strip()) == 0):
+        llm_prompt = ("Отвечайте на вопрос строго по контексту. Ответ — одной строкой. "
+                      "Если ответа нет в контексте, то напишите: не хватает данных в контексте.")
+    else:
+        llm_prompt = system_prompt
+    messages = [
+        {
+            "role": "system",
+            "content": llm_prompt
+        },
+        {
+            "role": "user",
+            "content": "Заданный контекст:\n\n```text\n{context}\n```\n\nВопрос пользователя: {input}"
+        }
+    ]
+    full_prompt_template = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    prompt = PromptTemplate.from_template(full_prompt_template)
     document_chain = create_stuff_documents_chain(model, prompt)
     generation_chain = create_retrieval_chain(retriever, document_chain)
     log("> Done")

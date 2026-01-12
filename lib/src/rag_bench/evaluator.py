@@ -1,4 +1,6 @@
+import ast
 from typing import Any, Dict
+import warnings
 
 import numpy as np
 from rouge_score import rouge_scorer
@@ -25,15 +27,15 @@ class RAGEvaluator:
         tokens = re.findall(r"\w+", text.lower(), flags=re.UNICODE)
         return [self.rus_stem.stem(t) for t in tokens]
 
-    def evaluate_retrieval(self, retrieved_doc_ids, relevant_doc_id):
+    def evaluate_retrieval(self, retrieved_doc_ids, relevant_doc_ids):
         metrics = {}
 
         # hit rate
-        metrics["hit_rate"] = 1.0 if relevant_doc_id in retrieved_doc_ids else 0.0
+        metrics["hit_rate"] = len(set(relevant_doc_ids) & set(retrieved_doc_ids)) / len(relevant_doc_ids)
 
         # mrr
         for i, doc_id in enumerate(retrieved_doc_ids):
-            if doc_id == relevant_doc_id:
+            if doc_id in relevant_doc_ids:
                 metrics["mrr"] = 1.0 / (i + 1)
                 break
         else:
@@ -96,26 +98,95 @@ class RAGEvaluationResults:
         log(retrieval_table)
         log("\nGeneration Metrics:")
         log(generation_table)
-        
 
-def evaluate_rag_results(results, dataset):
+
+def check_doc_ids(doc_ids) -> bool:
+    if not isinstance(doc_ids, list):
+        return False
+    ok = True
+    for val in doc_ids:
+        if not isinstance(val, int):
+            ok = False
+            break
+    return ok
+
+
+def evaluate_rag_results(results, dataset, text_mapping):
     evaluation_results = {}
     evaluator = RAGEvaluator()
 
-    for i, result in results.items():
-        reference_answer = dataset["train"][int(i)]["answer"]
+    for test_sample in dataset["train"]:
+        public_id = test_sample["public_id"]
+        if (not isinstance(public_id, str)) and (not isinstance(public_id, int)):
+            err_msg = (f'The public_id {public_id} is wrong! Expected {type("123")} or {type(123)}, '
+                       f'got {type(public_id)}.')
+            raise ValueError(err_msg)
+        if isinstance(public_id, int):
+            public_id = str(public_id)
+        reference_answer = test_sample["answer"]
+        if not isinstance(test_sample["text_ids"], str):
+            err_msg = (f'The text_ids {test_sample["text_ids"]} is wrong! '
+                       f'Expected {type("123")}, got {type(test_sample["text_ids"])}.')
+            raise ValueError(err_msg)
+        text_ids = ast.literal_eval(test_sample["text_ids"])
+        set_of_doc_ids = set()
+        relevant_doc_ids = []
+        for doc_id in text_ids:
+            if isinstance(doc_id, list):
+                for doc_id__ in doc_id:
+                    if isinstance(doc_id__, int):
+                        if doc_id__ not in set_of_doc_ids:
+                            set_of_doc_ids.add(doc_id__)
+                            relevant_doc_ids.append(doc_id__)
+                    else:
+                        doc_id_ = int(doc_id__)
+                        if doc_id_ not in set_of_doc_ids:
+                            set_of_doc_ids.add(doc_id_)
+                            relevant_doc_ids.append(doc_id_)
+            elif isinstance(doc_id, int):
+                if doc_id not in set_of_doc_ids:
+                    set_of_doc_ids.add(doc_id)
+                    relevant_doc_ids.append(doc_id)
+            else:
+                doc_id_ = int(doc_id)
+                if doc_id_ not in set_of_doc_ids:
+                    set_of_doc_ids.add(doc_id_)
+                    relevant_doc_ids.append(doc_id_)
+        del set_of_doc_ids
+        if not check_doc_ids(relevant_doc_ids):
+            raise RuntimeError(f'The relevant document IDs for question {public_id} are wrong!\n{relevant_doc_ids}')
+
+        try:
+            predicted = results[public_id]
+        except:
+            try:
+                predicted = results[int(public_id)]
+            except Exception as err:
+                warnings.warn(str(err))
+                predicted = {
+                    "found_ids": [],
+                    "model_answer": ""
+                }
+        if not isinstance(predicted["found_ids"], list):
+            err_msg = (f'The found_ids {predicted["text_ids"]} is wrong! '
+                       f'Expected {type([1, 2, 3])}, got {type(predicted["found_ids"])}.')
+            raise ValueError(err_msg)
+        predicted_answer = predicted["model_answer"]
+        found_doc_ids = [int(text_mapping[public_id_]) for public_id_ in predicted["found_ids"]]
+        if not check_doc_ids(found_doc_ids):
+            raise RuntimeError(f'The found document IDs for question {public_id} are wrong!\n{found_doc_ids}')
 
         retrieval_metrics = evaluator.evaluate_retrieval(
-            retrieved_doc_ids=result["found_ids"], 
-            relevant_doc_id=int(i)
+            retrieved_doc_ids=found_doc_ids,
+            relevant_doc_ids=relevant_doc_ids
         )
 
         generation_metrics = evaluator.evaluate_generation(
-            generated_answer=result["model_answer"], 
+            generated_answer=predicted_answer,
             reference_answer=reference_answer
         )
 
-        evaluation_results[i] = {
+        evaluation_results[public_id] = {
             "retrieval": retrieval_metrics,
             "generation": generation_metrics,
         }
