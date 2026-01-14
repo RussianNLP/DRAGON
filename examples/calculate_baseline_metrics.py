@@ -47,7 +47,7 @@ def auto_set_max_batched_tokens(model_path, gpu_memory_utilization=0.9, safety_m
 
     num_layers = config.num_hidden_layers
     hidden_size = config.hidden_size
-    dtype_size = 2  # для bfloat16/fp16
+    dtype_size = 2  # for bfloat16/fp16
     per_token_kv_memory = 2 * num_layers * hidden_size * dtype_size
 
     max_tokens = available_kv_memory // per_token_kv_memory
@@ -141,8 +141,13 @@ def main():
     max_num_batched_tokens = auto_set_max_batched_tokens(args.model, args.gpu_memory_utilization)
     if max_num_batched_tokens < max_model_length:
         err_msg = (f'The max_model_length is too large. '
-                   f'Expected less than {max_num_batched_tokens}, got {max_model_length}.')
+                   f'Expected less than {max_num_batched_tokens}, got {max_model_length}. '
+                   f'Since max_model_len is calculated automatically based on top_k, then decrease top_k.')
         raise ValueError(err_msg)
+    max_num_batched_tokens_ = 4
+    while max_num_batched_tokens_ < max_model_length:
+        max_num_batched_tokens_ *= 4
+    max_num_batched_tokens = min(max_num_batched_tokens, max_num_batched_tokens_)
     print(f'{args.model} max_num_batched_tokens = {max_num_batched_tokens}')
     llm = VLLM(
         model=args.model,
