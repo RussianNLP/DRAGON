@@ -11,6 +11,7 @@ import re
 
 
 from .helper import log
+from .constants import THINK_END_TOKEN
 
 
 class RAGEvaluator:
@@ -18,7 +19,7 @@ class RAGEvaluator:
         self.rus_stem = SnowballStemmer("russian")
 
         self.rouge_scorer = rouge_scorer.RougeScorer(
-            ["rouge1", "rougeL"],
+            ["rouge1", "rouge2", "rougeL"],
             tokenizer=SimpleNamespace(tokenize=self.tokenize_ru),
             use_stemmer=False
         )
@@ -47,6 +48,7 @@ class RAGEvaluator:
         rouge_scores = self.rouge_scorer.score(generated_answer, reference_answer)
         return {
             "rouge1": rouge_scores["rouge1"].fmeasure,
+            "rouge2": rouge_scores["rouge2"].fmeasure,
             "rougeL": rouge_scores["rougeL"].fmeasure,
             "em": self.evaluate_em(generated_answer, reference_answer),
             "substring_match": self.evaluate_substring_match(generated_answer, reference_answer)
@@ -89,6 +91,7 @@ class RAGEvaluationResults:
         generation_metrics = self.average_metrics['generation']
         generation_table = tabulate([
             ["ROUGE-1", generation_metrics['rouge1']],
+            ["ROUGE-2", generation_metrics['rouge2']],
             ["ROUGE-L", generation_metrics['rougeL']]
         ], headers=["Metric", "Value"], 
         tablefmt="grid",
@@ -172,6 +175,9 @@ def evaluate_rag_results(results, dataset, text_mapping):
                        f'Expected {type([1, 2, 3])}, got {type(predicted["found_ids"])}.')
             raise ValueError(err_msg)
         predicted_answer = predicted["model_answer"]
+        think_end_idx = predicted_answer.find(THINK_END_TOKEN)
+        if think_end_idx >= 0:
+            predicted_answer = predicted_answer[(think_end_idx + len(THINK_END_TOKEN)):]
         found_doc_ids = [int(text_mapping[public_id_]) for public_id_ in predicted["found_ids"]]
         if not check_doc_ids(found_doc_ids):
             raise RuntimeError(f'The found document IDs for question {public_id} are wrong!\n{found_doc_ids}')
@@ -198,7 +204,7 @@ def evaluate_rag_results(results, dataset, text_mapping):
             [res["retrieval"][metric] for res in evaluation_results.values()]
         )
 
-    for metric in ["rouge1", "rougeL", "em", "substring_match"]:
+    for metric in ["rouge1", "rouge2", "rougeL", "em", "substring_match"]:
         avg_metrics["generation"][metric] = np.mean(
             [res["generation"][metric] for res in evaluation_results.values()]
         )
