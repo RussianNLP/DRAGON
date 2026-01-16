@@ -1,4 +1,6 @@
 import ast
+import re
+from types import SimpleNamespace
 from typing import Any, Dict
 import warnings
 
@@ -6,8 +8,6 @@ import numpy as np
 from rouge_score import rouge_scorer
 from tabulate import tabulate
 from nltk.stem.snowball import SnowballStemmer
-from types import SimpleNamespace
-import re
 
 
 from .helper import log

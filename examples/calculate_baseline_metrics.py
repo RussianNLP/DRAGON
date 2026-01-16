@@ -214,7 +214,11 @@ def main():
         'chunk_size': args.chunk_size,
         'chunk_overlap': args.chunk_overlap,
         'DRAGON_version': version,
-        'overall_results': evaluation_results.average_metrics
+        'overall_results': evaluation_results.average_metrics['overall'],
+        'results_by_category': dict(map(
+            lambda k: (k, evaluation_results.average_metrics[k]),
+            sorted(list(set(evaluation_results.average_metrics.keys()) - {'overall'}))
+        ))
     }
     with codecs.open(evaluation_fname, mode='w', encoding='utf-8') as fp:
         json.dump(obj=report_data, fp=fp, ensure_ascii=False, indent=4)
