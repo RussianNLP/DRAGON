@@ -1,6 +1,11 @@
 datasets
+huggingface_hub
+langchain<1.0
+langchain-chroma<1.0
+langchain-text-splitters<1.0
+nltk
+numpy
+requests
 rouge_score
 tqdm
 tabulate
-langchain
-langchain-chroma

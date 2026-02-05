@@ -1,0 +1,11 @@
+datasets
+langchain<1.0
+langchain-community<0.4
+langchain-core<1.0
+langchain-huggingface<1.0
+numpy
+rag-bench>=0.2.12
+tqdm
+torch>=2.1.0
+transformers
+vllm>=0.7.3
