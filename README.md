@@ -32,14 +32,16 @@ def get_ds_versions(repo_id):
     repo_refs = list_repo_refs(repo_id, repo_type="dataset")
     return [ref.name for ref in repo_refs.tags]
 
-#['1.13.0',
+#['1.15.0',
+# '1.14.0',
+# '1.13.0',
 # '1.12.0',
 #  ...
 #  '1.0.0'
 #]
 ```
 
-Version 1.13.0 refers to October 2025, 1.12.0 — to September 2025, etc.
+Version 1.15.0 refers to December 2025, 1.14.0 — to November 2025, etc.
 
 You can load a specific version of dataset:
 
@@ -56,10 +58,6 @@ ds = load_dataset('ai-forever/hist-rag-bench-private-qa', revision="1.13.0")
 </p>
 
 The Data Generation pipeline consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.
-
-## Usage
-
-Text...
 
 ## Citation
 
