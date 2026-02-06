@@ -59,6 +59,10 @@ ds = load_dataset('ai-forever/hist-rag-bench-private-qa', revision="1.13.0")
 
 The Data Generation pipeline consists of 2 stages: KG Extraction and Question Generation. The KG Extraction retrieves factual information from texts and preserves the most specific and fresh facts in form of a Knowledge Graph. The Question Generation module samples subgraphs of a certain structure to generate a question-answer pair with LLM.
 
+### Usage
+
+You can see the example of evaluating the baseline in [calculate_baseline_metrics.ipynb](https://github.com/RussianNLP/DRAGON/blob/main/examples/calculate_baseline_metrics.ipynb).
+
 ## Citation
 
 ```
