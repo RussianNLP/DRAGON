@@ -1,0 +1,71 @@
+{
+  "dragon_version": "1.15.0",
+  "n_questions": 600,
+  "average_metrics": {
+    "overall": {
+      "retrieval": {
+        "hit_rate": 0.9152777777777777,
+        "mrr": 0.6278601937278407
+      },
+      "generation": {
+        "rouge1": 0.665979558740979,
+        "rouge2": 0.44956855663317175,
+        "rougeL": 0.6288593708703601,
+        "exact_match": 0.355,
+        "substring_match": 0.43
+      }
+    },
+    "cond": {
+      "retrieval": {
+        "hit_rate": 0.9166666666666666,
+        "mrr": 0.5848682428682429
+      },
+      "generation": {
+        "rouge1": 0.8315486365486365,
+        "rouge2": 0.6116666666666667,
+        "rougeL": 0.8255486365486365,
+        "exact_match": 0.7066666666666667,
+        "substring_match": 0.74
+      }
+    },
+    "mh": {
+      "retrieval": {
+        "hit_rate": 0.8911111111111111,
+        "mrr": 0.6146565656565656
+      },
+      "generation": {
+        "rouge1": 0.6304743124053469,
+        "rouge2": 0.3558630505297172,
+        "rougeL": 0.6295547721754619,
+        "exact_match": 0.36666666666666664,
+        "substring_match": 0.46
+      }
+    },
+    "set": {
+      "retrieval": {
+        "hit_rate": 0.9333333333333333,
+        "mrr": 0.694376283846872
+      },
+      "generation": {
+        "rouge1": 0.5753514278001703,
+        "rouge2": 0.3546836769225296,
+        "rougeL": 0.43379021654757993,
+        "exact_match": 0.0,
+        "substring_match": 0.04666666666666667
+      }
+    },
+    "simple": {
+      "retrieval": {
+        "hit_rate": 0.92,
+        "mrr": 0.6175396825396825
+      },
+      "generation": {
+        "rouge1": 0.6265438582097621,
+        "rouge2": 0.47606083241377356,
+        "rougeL": 0.6265438582097621,
+        "exact_match": 0.3466666666666667,
+        "substring_match": 0.47333333333333333
+      }
+    }
+  }
+}
